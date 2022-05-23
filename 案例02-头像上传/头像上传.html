@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>案例-头像上传</title>
+  <link rel="stylesheet" href="./lib/bootstrap-v4.6.0.css">
+  <style>
+    .thumb-box {
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    .thumb {
+      width: 250px;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="thumb-box">
+    <!-- 头像 -->
+    <img src="./images/cover.jpg" class="img-thumbnail thumb" alt="">
+    <div class="mt-2">
+      <!-- 文件选择框 -->
+      <!-- accept 属性表示可选择的文件类型 -->
+      <!-- image/* 表示只允许选择图片类型的文件 -->
+      <input type="file" id="iptFile" accept="image/*" style="display: none;">
+      <!-- 选择头像图片的按钮 -->
+      <button class="btn btn-primary" id="btnChoose">选择 & 上传图片</button>
+    </div>
+  </div>
+
+  <script src="./lib/jquery-v3.6.0.js"></script>
+  <script src="./lib/axios.js"></script>
+  <script>
+        const button = document.querySelector('#btnChoose')
+        const input = document.querySelector('#iptFile')
+        const img = document.querySelector('img')
+         // 点击button按钮 触发 input的点击事件
+         button.addEventListener('click',function(){
+             input.click()
+         })
+           // 获取用户上传的数据
+          // 设置 change事件
+             input.addEventListener('change',function(){
+              const fd = new FormData()  // 构造空白对象
+                fd.append('avatar',input.files[0])  // 在对象中添加 键值对 avatar：表单里的元素
+                  // 发送ajax
+                  axios.post('http://www.liulongbin.top:3009/api/upload/avatar',fd).then(({data:res})=>{
+                                img.src = 'http://www.liulongbin.top:3009' + res.url
+                  })
+           
+             })
+            
+     
+         
+  </script>
+</body>
+
+</html>
